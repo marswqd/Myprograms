@@ -1,0 +1,51 @@
+Program FFT.FOR
+
+This FORTRAN program calculates the fast Fourier transform of a
+timeseries (real and/or complex) or the inverse Fourier transform 
+of spectral components (real and/or complex).  The FFT is based 
+on the algorithm given in Numerical Recipes, Cambridge University 
+Press, 1994.
+
+INPUT 
+
+The program prompts for the name of the input and output files.  
+The input data file is then read and should be in the following 
+format.
+
+card 1	descriptive header
+card 2	isign 
+card 3	dt  NN
+card 4	format(1x,f12.5,1x,f12.5)  real part    imag part
+card 5   .		.
+   .	    .		.
+   .	    .		.
+
+isign = +1 for forward FFT, isign = -1 for inverse FFT
+dt is the time step
+NN is the number of data pairs (NN=power of 2)
+if isign = +1, real part and imag part are the equally spaced 
+               timeseries terms
+if isign = -1, real part and imag part are the spectrum terms 
+               at the Fourier frequencies
+
+OUTPUT
+
+The output file first echos the input data.  Then it gives time, 
+f(t) real, f(t) imaginary, frequency, F(f) real, F(f)imaginary as 
+format(1x,6(e11.4,1x)).  The following is a piece of the output file.
+
+ Input file name:    data1.prn   
+ Input file header:  Timeseries with 10 frequency components.                       
+ number of points:         1024
+ isign:                       1
+ time step:          .10000E+01
+ Nyquist frequency:  .50000E+00
+
+                    fn(time)                            Fn(freq)
+    time        real        imag        freq        real        imag
+   .0000E+00   .1603E+00   .0000E+00   .0000E+00   .1457E-06   .0000E+00
+   .1000E+01   .2390E+00   .0000E+00   .9766E-03  -.1991E+00  -.4587E+00
+   .2000E+01   .3135E+00   .0000E+00   .1953E-02  -.4972E+00   .5266E-01
+   .1000E+01   .2390E+00   .0000E+00   .9766E-03  -.1991E+00  -.4587E+00
+   .2000E+01   .3135E+00   .0000E+00   .1953E-02  -.4972E+00   .5266E-01
+

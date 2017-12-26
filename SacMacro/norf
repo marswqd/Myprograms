@@ -1,0 +1,29 @@
+******
+* 此为SAC宏，功能对同一台站接收的同一地震的数据进行归一化处理
+* in为输入文件，注意：第一个输入文件为主文件，取其归一化参数为共同参数
+* 注意：输入文件会被覆盖，请做好备份
+******
+$keys in
+r $in
+
+evaluate to max1 &1,DEPMAX
+evaluate to min1 &1,DEPMIN * -1.0
+
+if %max1 GE %min1
+ evaluate to m1 %max1
+else
+ evaluate to m1 %min1
+endif
+*getbb m1
+
+if %m1 EQ 0.0
+ evaluate to m1 %m1 + 1.0
+endif
+
+div %m1
+
+w $in
+
+unsetbb all
+
+q

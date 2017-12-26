@@ -1,0 +1,35 @@
+######
+# 此为shell脚本文件，功能是通过窄带滤波提取互相关数据中的相速度频散信息
+# 本脚本使用了以下文件：
+# pref:SAC宏,数据预处理，去仪器响应
+# norf:SAC宏,归一化计算（输入文件会被覆盖）
+# corf:SAC宏,互相关计算
+# fftf:SAC宏,快速傅里叶变换
+# nbf:SAC宏,窄带滤波和快速傅里叶反变换
+######
+
+#!/bin/sh
+set -x
+
+######
+# Chapter 1
+# 数据预处理+归一化+互相关+快速傅里叶变换
+######
+#生成的文件为Z1.sac   Z2.sac   Z3.sac   Z4.sac   Z5.sac   Z6.sac 
+#            Z1.0.sac Z1.1.sac Z1.2.sac Z1.3.sac Z1.4.sac 
+
+#sac pref in out f1 f2 f3 f4
+# 保存文件
+#mkdir save
+#cp Z*.sac save
+#sac norf in
+#sac corf in1 in2 out
+# 叠加操作（暂缺）
+sac fftf in
+
+######
+# Chapter 2
+# 窄带滤波+快速傅里叶反变换
+######
+sac nbf am ph out t0 n m
+

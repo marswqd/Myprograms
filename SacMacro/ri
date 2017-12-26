@@ -1,0 +1,8 @@
+#!/bin/sh
+
+sac <<
+r Z1.sac
+subf Z1.sac
+w xxxx
+q
+EOF

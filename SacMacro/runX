@@ -1,0 +1,6 @@
+#!/bin/sh
+set -x
+gfortran bnX.f90 libcalpltf.a -o bnX
+./bnX
+plotxvig < test.plt
+#plotnps -G < test.plt > test.ps

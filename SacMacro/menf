@@ -1,0 +1,29 @@
+******
+* 此为SAC宏，功能是求全项，对应项，交叉项之间的能量比，
+* whole:全项；corre:对应项；cross:交叉项
+* 自动读入三个SAC文件
+******
+$keys whole corre cross
+
+r $whole $corre $cross
+sqr
+w x1 x2 x3
+r x1 x2 x3
+
+evaluate to depmen1 &1,DEPMEN
+evaluate to depmen2 &2,DEPMEN
+evaluate to depmen3 &3,DEPMEN
+
+setbb m '$whole$'
+evaluate to m1 %depmen1 / %depmen3
+evaluate to m2 %depmen2 / %depmen3
+evaluate to m3 %depmen3 / %depmen3
+
+*getbb depmen1 m1
+getbb to ratio names off newline off m m1 m2 m3
+*getbb to ratio '%%%%%%'
+
+unsetbb all
+sc rm -f x1 x2 x3
+
+q

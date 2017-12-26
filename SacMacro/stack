@@ -1,0 +1,60 @@
+######
+# 此为shell脚本文件，功能是求和
+# 本脚本使用了以下文件：
+# addf:SAC宏,两个文件的加法计算
+# subf:SAC宏,文件的自身减法计算,目的是生成具有相同文件头的空的SAC文件,为文件加法循环做准备
+######
+
+
+#!/bin/sh
+set -x
+
+#拥有的文件为0c12    1c12    2c12    3c12    4c12    5c12    6c12    7c12    8c12    9c12    10c12   
+#            0c12.77 1c12.77 2c12.77 3c12.77 4c12.77 5c12.77 6c12.77 7c12.77 8c12.77 9c12.77 10c12.77 
+#            0c12.x  1c12.x  2c12.x  3c12.x  4c12.x  5c12.x  6c12.x  7c12.x  8c12.x  9c12.x  10c12.x  
+
+
+# 全振型理论数据/实际数据的操作
+
+sac subf in 0c12 out allc12
+
+for n in 0 1 2 3 4 5 6 7 8 9 10
+do
+sac addf in1 ${n}c12 in2 allc12 out allc12
+done
+
+# 对单一振型理论数据的操作（相邻台站）
+# 对应项
+
+sac subf in 0c12.77 out allc12.77
+
+for n in 0 1 2 3 4 5 6 7 8 9 10
+do
+sac addf in1 ${n}c12.77 in2 allc12.77 out allc12.77
+done
+
+# 交叉项
+
+sac subf in 0c12.x out allc12.x
+
+for n in 0 1 2 3 4 5 6 7 8 9 10
+do
+sac addf in1 ${n}c12.x in2 allc12.x out allc12.x
+done
+
+for n in 0 1 2 3 4 5 6 7 8 9 10
+do
+sac menf whole ${n}c12 corre ${n}c12.77 cross ${n}c12.x
+done
+
+sac menf whole allc12 corre allc12.77 cross allc12.x
+
+echo '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' >>ratio
+
+
+######
+# 多重滤波
+######
+do_mft *c*
+
+

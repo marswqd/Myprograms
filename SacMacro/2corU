@@ -1,0 +1,91 @@
+######
+# 此为shell脚本文件，功能是实现双台群速度频散提取中的互相关方法
+# 本脚本使用了以下文件：
+# surfgram:sh脚本文件,生成面波理论地震图
+# corf:SAC宏,两个文件的互相关计算
+# addf:SAC宏,两个文件的加法计算
+# subf:SAC宏,文件的自身减法计算,目的是生成具有相同文件头的空的SAC文件,为文件加法循环做准备
+######
+
+#!/bin/sh
+set -x
+
+######
+# 生成面波理论地震图
+######
+sh surfgram
+#生成的文件为Z1.sac   Z2.sac   Z3.sac   Z4.sac   Z5.sac   Z6.sac 
+#            Z1.0.sac Z1.1.sac Z1.2.sac Z1.3.sac Z1.4.sac 
+#            Z2.0.sac Z2.1.sac Z2.2.sac Z2.3.sac Z2.4.sac 
+#            Z3.0.sac Z3.1.sac Z3.2.sac Z3.3.sac Z3.4.sac 
+#            Z4.0.sac Z4.1.sac Z4.2.sac Z4.3.sac Z4.4.sac 
+#            Z5.0.sac Z5.1.sac Z5.2.sac Z5.3.sac Z5.4.sac 
+#            Z6.0.sac Z6.1.sac Z6.2.sac Z6.3.sac Z6.4.sac 
+
+# 将生成的理论地震图文件保存起来
+mkdir save
+cp Z*.sac save
+
+######
+# 互相关操作,自定义输入文件和输出文件名（均为SAC型）
+######
+# 全振型理论数据/实际数据的操作
+for n in 1 2 3 4 5
+do
+m=$(($n+1))
+sac corf in1 Z${n}.sac in2 Z${m}.sac out c${n}${m}
+done
+
+# 对单一振型理论数据的操作（相邻台站）
+# 生成所有项
+for i in 1 2 3 4 5
+do
+
+j=$(($i+1))
+
+for n in 0 1 2 3 4 5 6 7
+do
+
+for m in 0 1 2 3 4 5 6 7
+do
+sac corf in1 Z${i}.${n}.sac in2 Z${j}.${m}.sac out c${i}${j}.${n}${m}
+cp c${i}${j}.${n}${m} save/c${i}${j}.${n}${m}
+done
+
+done
+
+sac subf in c${i}${j}.00 out c${i}${j}.x
+
+# 提取对应项
+for n in 0 1 2 3 4 5 6
+do
+m=$(($n+1))
+sac addf in1 c${i}${j}.${n}${n} in2 c${i}${j}.${m}${m} out c${i}${j}.${m}${m}
+rm -f c${i}${j}.${n}${n}
+done
+
+# 提取交叉项
+for n in 0 1 2 3 4 5 6 7
+do
+
+for m in 0 1 2 3 4 5 6 7
+do
+
+if test $n -ne $m
+then
+sac addf in1 c${i}${j}.${n}${m} in2 c${i}${j}.x out c${i}${j}.x
+rm -f c${i}${j}.${n}${m}
+fi
+
+done
+
+done
+
+done
+
+######
+# 多重滤波
+######
+do_mft c*
+
+

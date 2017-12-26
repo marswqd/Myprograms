@@ -1,0 +1,39 @@
+SAC> r Z1.0.sac
+SAC> p
+SAC> listhdr
+ 
+  FILE: Z1.0.sac - 1
+ --------------
+
+         NPTS = 2048                   采样点数
+            B = 6.150000e+01           第一个采样点的时间（相对参考时间）
+            E = 2.108500e+03           最后一个采样点的时间（相对参考时间）
+       IFTYPE = TIME SERIES FILE       文件类型（File content）
+        LEVEN = TRUE                   TRUE (1) if evenly spaced
+        DELTA = 1.000000e+00           采样间隔
+       DEPMIN = -5.064632e-08          Minimum value of dependent variable 因变量的最小值
+       DEPMAX = 6.884306e-08           Maximum value of dependent variable 因变量的最大值
+       DEPMEN = 3.568694e-10           因变量的平均值
+      OMARKER = 0                (O)   发震时刻（相对参考时间）
+      AMARKER = 66.853           (P)   P波到时
+     T0MARKER = 113.91           (SV)  SV波到时
+       KZDATE = JAN 01 (001), 1970     参考时间
+       KZTIME = 00:00:00.000           参考时间
+       IZTYPE = BEGIN TIME             Reference time equivalence
+        KSTNM = GRN21                  台站名称
+        CMPAZ = 0.000000e+00           0: indicates north; 90: indicates east（Component azimuth, degrees east of north）
+       CMPINC = 0.000000e+00           0: motion in an upward direction; 90: motion in a horizontal direction（Component incident, degrees from vertical）
+         STEL = 0.000000e+00           台站海拔
+        KEVNM = SYNTHETI               Event Name - first 8 characters
+         EVDP = 4.000000e+01           震源深度
+         DIST = 5.000000e+02           震中距
+           AZ = 4.500000e+01           震源到台站的方位角
+          BAZ = 2.250000e+02           反方位角
+        GCARC = 4.496600e+00           台站到震源的大圆弧距离（°）
+       LOVROK = TRUE                   TRUE if can overwrite this file
+        NVHDR = 6                      Header version number, always 6
+        NORID = 0
+        NEVID = 0
+       LPSPOL = TRUE                   TRUE if stations have positive polarity, left hand rule
+       LCALDA = FALSE                  TRUE if DIST, AZ, BZ, GCARC to be calculated
+       KCMPNM = Z                      分量名

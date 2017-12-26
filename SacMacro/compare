@@ -1,0 +1,20 @@
+#!/bin/sh
+
+MFTSRF *.dsp > disp.d
+
+sdpegn96 -R -U -PER -TXT -XLOG -YMIN 2.5 -YMAX 5 -D disp.d
+sdpegn96 -L -U -PER -TXT -XLOG -YMIN 2.5 -YMAX 5 -D disp.d
+
+plotxvig < SREGNU.PLT
+echo 'Please input name of R'
+read R
+plotnps < SREGNU.PLT > ${R}.ps
+
+plotxvig < SLEGNU.PLT
+echo 'Please input name of L'
+read L
+plotnps < SLEGNU.PLT > ${L}.ps
+
+
+
+

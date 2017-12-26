@@ -1,0 +1,48 @@
+******
+* 此为SAC宏，功能对面波频散数据进行频率域窄带滤波和快速傅里叶反变换
+* am为输入振幅，ph为输入相位文件（am和ph要对应），out为输出文件（自定义）
+* t0为滤波器中心周期，n为半宽系数（一般为很小的值）m为衰减系数
+* 注意：本滤波器的宽度及衰减亦依赖于DELTA（采样间隔）
+* nb.f90 为窄带滤波器生成fortran语言文件
+******
+$keys am ph out t0 n m
+$default n 0.2
+$default m 0.8
+r $am
+
+evaluate to B &1,B
+evaluate to NPTS &1,NPTS
+evaluate to DELTA &1,DELTA
+evaluate to t0 ( 1.0 / $t0 )
+evaluate to n $n
+evaluate to m $m
+
+getbb to sac-data names off B NPTS DELTA t0 n m
+
+*sc gfortran nb.f90 -o nb 
+sc ./nb
+
+ra nb-data
+w nb.sac
+
+r nb.sac
+ch B %B
+ch DELTA %DELTA
+w over
+
+r $am
+mulf nb.sac
+w x.am
+
+r $ph
+w x.ph
+
+rsp x
+ifft
+w $out
+
+unsetbb all
+sc rm -f sac-data x.am x.ph
+sc rm -f nb-data nb.sac
+
+q

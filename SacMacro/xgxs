@@ -1,0 +1,80 @@
+******
+* 此为SAC宏，功能是对两个时间序列文件计算相关系数
+******
+$keys in1 in2
+******
+* 归一化
+******
+r $in1 $in2
+
+evaluate to max1 &1,DEPMAX
+evaluate to min1 &1,DEPMIN * -1.0
+*getbb max1 min1
+
+evaluate to max2 &2,DEPMAX
+evaluate to min2 &2,DEPMIN * -1.0
+*getbb max2 min2
+
+if %max1 GE %min1
+ evaluate to m1 %max1
+else
+ evaluate to m1 %min1
+endif
+*getbb m1
+
+if %max2 GE %min2
+ evaluate to m2 %max2
+else
+ evaluate to m2 %min2
+endif
+*getbb m2
+
+if %m1 EQ 0.0
+ evaluate to m1 %m1 + 1.0
+endif
+if %m2 EQ 0.0
+ evaluate to m2 %m2 + 1.0
+endif
+
+div %m1 %m2
+w new1 new2
+
+******
+* 计算相关系数
+******
+r new1 new2
+
+evaluate to m1 &1,DEPMEN
+evaluate to m2 &2,DEPMEN
+sqr
+w s1 s2
+r s1 s2
+evaluate to mm1 &1,DEPMEN
+evaluate to mm2 &2,DEPMEN
+*lh
+r new1
+mulf new2
+w s3
+r s3
+*lh
+evaluate to m12 &1,DEPMEN
+getbb m1 m2 mm1 mm2 m12
+evaluate to up %m12 - ( %m1 * %m2 )
+getbb up
+evaluate to down1 %mm1 - ( %m1 ** 2 )
+getbb down1
+evaluate to down2 %mm2 - ( %m2 ** 2 )
+getbb down2
+evaluate to down3 %down1 * %down2
+getbb down3
+evaluate to down sqrt %down3
+getbb down
+evaluate to r12 %up / %down
+
+setbb m '$in1$+$in2$'
+getbb to xxxx names off newline off m r12
+
+unsetbb all
+sc rm -f new1 new2 s1 s2 s3
+
+q

@@ -1,0 +1,8 @@
+******
+* 此为SAC宏，功能是对时间序列数据进行快速傅里叶变换
+******
+$keys in
+r $in
+fft amph
+wsp over
+q

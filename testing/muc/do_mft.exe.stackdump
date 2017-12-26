@@ -1,0 +1,7 @@
+Exception: STATUS_ACCESS_VIOLATION at eip=6102048B
+eax=009B00F8 ebx=612435D4 ecx=75357B6E edx=00256118 esi=00000000 edi=0022FA10
+ebp=61020C00 esp=0022C7E0 program=E:\cyg\home\Administrator\save\PROGRAMS.330\bin\do_mft.exe, pid 4504, thread main
+cs=001B ds=0023 es=0023 fs=003B gs=0000 ss=0023
+Stack trace:
+Frame     Function  Args
+End of stack trace

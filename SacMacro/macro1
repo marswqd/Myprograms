@@ -1,0 +1,6 @@
+$keys out
+  ra G.TXT
+  w g.sac
+  r g.sac
+  w $out
+  q

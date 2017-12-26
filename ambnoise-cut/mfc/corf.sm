@@ -1,0 +1,33 @@
+******
+* 此为SAC宏，功能是对两个时间序列文件进行互相关，
+* 为双台群速度频散提取中的互相关方法的多重滤波步骤提供SAC文件。
+* 自动读入两个SAC文件以及最终生成的文件名
+* 互相关计算————修改文件头
+******
+******
+* 互相关计算
+******
+$keys in1 in2 out
+r $in1 $in2
+evaluate to dist1 &1,DIST
+evaluate to dist2 &2,DIST
+correlate
+w cor11 cor12
+
+******
+* 改变互相关文件头
+******
+r cor12
+*lh
+evaluate to dist %dist1 - %dist2
+
+if %dist LT 0.0
+ evaluate to dist %dist * -1.0
+endif
+
+ch DIST %dist
+w $out
+
+sc rm -f  cor11 cor12
+
+q

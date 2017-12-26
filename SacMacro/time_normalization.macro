@@ -1,0 +1,16 @@
+*对地震信号进行时间域归一化（one-bit）
+setbb file_num 91
+setbb number 1
+setbb stop %file_num
+while %number le %stop
+  read cuta-%number%.SAC
+  abs
+  add 1e-16
+  write cuta-%number%_abs.SAC
+  read cuta-%number%.SAC
+  divf cuta-%number%_abs.SAC
+  write cuta-%number%_norm.SAC
+  setbb number (%number + 1)
+enddo
+systemcommond rm *abs.SAC
+  

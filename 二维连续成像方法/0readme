@@ -1,0 +1,30 @@
+文件说明：
+
+keyparameter.in   ：反演参数输入文件
+ 'correctdata.in' ! dataname=实测频散数据文件名。
+ 450.             ! aleng=先验相关长度。
+ 2.0              ! cd0=观测数据（走时）的标准误差。
+ 2.0              ! dg=射线轨迹相邻离散点的球心角(度)。 
+keyparameter.out  ：程序运行状态输出文件
+先验相关长度一般取3~4倍的波长，dg取先验相关长度的一半
+
+二进制文件：
+cm0pgpm.dat       ：记录内积分的值
+trace.dat         ：记录射线轨迹
+constant.dat      ：参数记录文件（nnray,DR,dg,sigma,aleng,cd0,v0）
+! nnray=射线总数，DR=度化弧度，dg=射线轨迹相邻点球心角（度），sigma=速度均方差，
+! aleng=先验相关长度，cd0=观测数据（射线走时）的标准误差，v0=实测速度的平均值。
+s_1array.dat      ：s逆矩阵
+
+
+dt.dat            ：存储走时均方差和走时偏差
+plottrace.bln     ：记录射线轨迹
+
+
+反演结果（可用sufer绘图）：
+vel.dat           ：以平均走时测量误差为先验数据方差的反演速度模型
+vel2.dat          ：以走时偏差为权重的反演速度模型
+dvel.dat          ：存储最终速度模型误差分布图 
+
+
+

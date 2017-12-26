@@ -1,0 +1,63 @@
+*sac宏文件。功能：挑选波形。将不好的波形文件删除掉，并挑选合格的波形进行震相标注。
+*sac中运行 macro chwave.sm  适用于sac-101.5c以前的版本
+
+cd picksac
+
+mkdir del done
+
+xlim a -20 t0 30
+do file wild *.Z.SAC    
+ setbb comz $file$
+ setbb allcom ( change ".Z.SAC" ".?.SAC" %comz% )
+ setbb   comr ( change ".Z.SAC" ".N.SAC" %comz% )
+ setbb   comt ( change ".Z.SAC" ".E.SAC" %comz% )
+ r %comz% %comr% %comt%
+ lh files 1 dist a t0 evdp az mag
+ *p1 
+ ppk p 3 a
+ *pause
+ setbb resp (reply "press d to delete, s sa ss to save, a to ppk, other words to next:")
+ if %resp% eq "d"
+  *sc rm %allcom%
+  mv %allcom% del/
+ elseif %resp% eq "s"
+  *cp %allcom% CCSAC/
+  mv %allcom% done/
+ elseif %resp% eq "sa"
+  ch t0 -12345.0
+  wh
+  *cp %allcom% CCSAC/
+  mv %allcom% done/
+ elseif %resp% eq "ss"
+  ch a -12345.0
+  wh
+  *cp %allcom% CCSAC/
+  mv %allcom% done/  
+ elseif %resp% eq "a"   
+  *apk 
+  ppk p 3 a m on
+  setbb resp2 ( reply "press d to delete, s sa ss to save, other words to next: " )
+  if %resp2% eq "d"
+   mv %allcom% del/
+  elseif %resp2% eq "s"  
+   wh 
+   *cp %allcom% CCSAC/
+   mv %allcom% done/
+  elseif %resp2% eq "sa"
+   ch t0 -12345.0
+   wh
+   *cp %allcom% CCSAC/
+   mv %allcom% done/
+  elseif %resp2% eq "ss"
+   ch a -12345.0
+   wh
+   *cp %allcom% CCSAC/
+   mv %allcom% done/    
+  endif
+ else
+  *mv %allcom% CTSAC/
+  message %allcom% keep  
+ endif
+enddo
+q
+
